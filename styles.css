@@ -51,22 +51,38 @@ h1, h2, h3, h4, h5, h6 {
 
 body {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
 }
 
 /* GRID */
 
 #board {
-    margin: 5%;
+    margin: 3% 5%;
     outline: 3px dotted red;
     display: grid;
-    grid-template: 1fr 1fr 1fr/ 1fr 1fr 1fr;
+    grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+    height: calc(75vh);
+    aspect-ratio: 1/1;
 }
 
 .cell {
     position: relative;
     outline: 2px solid black;
-    aspect-ratio: 1/1;
     align-content: center;
     justify-items: center;
+
+    & span {
+        position: absolute;
+        top:5px;
+        left: 7px;
+        color: rgba(0, 0, 0, 0.688);
+    }
 }
 
+footer {
+    font-size: smaller;
+    margin-top: auto;
+}
