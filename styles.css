@@ -43,16 +43,30 @@ h1, h2, h3, h4, h5, h6 {
   isolation: isolate;
 }
 
-/* === */
+/* === */   
 
 :root {
     font-family: sans-serif;
 }
 
-.cell {
-    outline: 2px solid black;
+body {
+    text-align: center;
 }
 
+/* GRID */
+
 #board {
+    margin: 5%;
     outline: 3px dotted red;
+    display: grid;
+    grid-template: 1fr 1fr 1fr/ 1fr 1fr 1fr;
 }
+
+.cell {
+    position: relative;
+    outline: 2px solid black;
+    aspect-ratio: 1/1;
+    align-content: center;
+    justify-items: center;
+}
+
