@@ -8,9 +8,18 @@
     <script src="script.js" defer></script>
 </head>
 <body>
+    <dialog id="endgame-modal">
+        <h1 id="result"></h1>
+        <p> ROUND HAS ENDED </p>
+        <button id="nextround" type="button"> Next Round </button>
+    </dialog>
+
     <header>
         <h1>TIC TAC TOE</h1>
         <button id="reset-btn" type="button">RESET</button>
+        <p>Player 1 (O) Score: <span id="p1-score"></span></p>
+        <p>Player 2 (X) Score: <span id="p2-score"></span></p>
+
     </header>
 
     <div id="board">
