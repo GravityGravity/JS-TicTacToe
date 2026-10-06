@@ -1,88 +1,116 @@
 /* RESET */
-*, *::before, *::after {
-  box-sizing: border-box;
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
 }
 
 *:not(dialog) {
-  margin: 0;
+	margin: 0;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  html {
-    interpolate-size: allow-keywords;
-  }
+	html {
+		interpolate-size: allow-keywords;
+	}
 }
 
 body {
-  line-height: 1.5;
-  /*  Improve text rendering */
-  -webkit-font-smoothing: antialiased;
+	line-height: 1.5;
+	/*  Improve text rendering */
+	-webkit-font-smoothing: antialiased;
 }
 
-img, picture, video, canvas, svg {
-  display: block;
-  max-width: 100%;
+img,
+picture,
+video,
+canvas,
+svg {
+	display: block;
+	max-width: 100%;
 }
 
-input, button, textarea, select {
-  font: inherit;
+input,
+button,
+textarea,
+select {
+	font: inherit;
 }
 
-p, h1, h2, h3, h4, h5, h6 {
-  overflow-wrap: break-word;
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	overflow-wrap: break-word;
 }
 
 p {
-  text-wrap: pretty;
-}
-h1, h2, h3, h4, h5, h6 {
-  text-wrap: balance;
+	text-wrap: pretty;
 }
 
-#root, #__next {
-  isolation: isolate;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	text-wrap: balance;
 }
 
-/* === */   
+#root,
+#__next {
+	isolation: isolate;
+}
+
+/* === */
 
 :root {
-    font-family: sans-serif;
+	font-family: sans-serif;
 }
 
 body {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-height: 100vh;
 }
 
 /* GRID */
 
 #board {
-    margin: 3% 5%;
-    outline: 3px dotted red;
-    display: grid;
-    grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
-    height: calc(75vh);
-    aspect-ratio: 1/1;
+	margin: 3% 5%;
+	outline: 3px dotted red;
+	display: grid;
+	grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+	height: calc(75vh);
+	aspect-ratio: 1/1;
 }
 
 .cell {
-    position: relative;
-    outline: 2px solid black;
-    align-content: center;
-    justify-items: center;
+	position: relative;
+	outline: 2px solid black;
+	align-content: center;
+	justify-items: center;
+	font-size: xx-large;
 
-    & span {
-        position: absolute;
-        top:5px;
-        left: 7px;
-        color: rgba(0, 0, 0, 0.688);
-    }
+	& span {
+		position: absolute;
+		top: 5px;
+		left: 7px;
+		color: rgba(0, 0, 0, 0.688);
+	}
+}
+
+.cell:empty:hover::after {
+	content: var(--symbol);
+	opacity: 0.3;
 }
 
 footer {
-    font-size: smaller;
-    margin-top: auto;
+	font-size: smaller;
+	margin-top: auto;
 }

@@ -27,7 +27,7 @@ const gameboard = (function () {
             1. ${player1.name}
             2. ${player2.name}`);
 
-        setPlayerScore();
+		setPlayerScore();
 	}
 
 	function checkPlayersExist() {
@@ -55,6 +55,7 @@ const gameboard = (function () {
 		if (!checkPlayersExist()) createPlayers();
 		roundReset();
 		activePlayer = player1;
+		setSymbol(activePlayer.mark);
 
 		console.log("++ ROUND BEGIN ++");
 	}
@@ -64,6 +65,7 @@ const gameboard = (function () {
 		player1.binary = 0;
 		player2.binary = 0;
 		moveCounter = 0;
+		playerSwitch = false;
 		activePlayer = null;
 		clearBoard();
 		console.log("  !ROUND RESET!  ");
@@ -93,10 +95,13 @@ const gameboard = (function () {
 
 			if (moveCounter >= 5) {
 				// Check End Game Conditions
-				checkRoundCondition();
+				if (checkRoundCondition()) {
+					return true;
+				}
 			}
 
 			playerToggle();
+			setSymbol(activePlayer.mark);
 		} else {
 			console.log(`> ${cell + 1} already has marker placed`);
 		}
@@ -107,23 +112,31 @@ const gameboard = (function () {
 		let winner = checkWinCondition();
 		if (winner) {
 			displayGameEnd(winner);
+			return true;
 		}
-		if (checkMoveCounterMax()) displayGameEnd();
+		if (checkMoveCounterMax()) {
+			player1.score += 1;
+			player2.score += 1;
+			setPlayerScore();
+			displayGameEnd();
+			return true;
+		}
+		return false;
 	}
 
 	function checkWinCondition() {
 		console.log("checked win condition debug");
 		if (WINS.some((binWin) => (player1.binary & binWin) === binWin)) {
 			player1.score += 1;
-            setPlayerScore();
+			setPlayerScore();
 			displayPlayerWin(player1);
-			displayGameEnd(player1);
+			return player1;
 		}
 		if (WINS.some((binWin) => (player2.binary & binWin) === binWin)) {
-			displayPlayerWin(player2);
-            setPlayerScore();
 			player2.score += 1;
-			displayGameEnd(player2);
+			setPlayerScore();
+			displayPlayerWin(player2);
+			return player2;
 		}
 
 		return false;
@@ -154,24 +167,27 @@ const gameboard = (function () {
 
 	// Display Controller
 	const endGameModal = document.querySelector("dialog");
-    const nextRndBtn = endGameModal.querySelector("#nextround");
+	const nextRndBtn = endGameModal.querySelector("#nextround");
 
-    const p1Score = document.querySelector("#p1-score");
-    const p2Score = document.querySelector("#p2-score");
+	const p1Score = document.querySelector("#p1-score");
+	const p2Score = document.querySelector("#p2-score");
 
 	const resetBtn = (document.querySelector("#reset-btn").onclick = gameReset);
-    nextRndBtn.onclick = function () {
-        endGameModal.close();
-        playRound();
-    }
+	nextRndBtn.onclick = function () {
+		endGameModal.close();
+		playRound();
+	};
 
-    function setPlayerScore() {
-        p1Score.textContent = player1.score;
-        p2Score.textContent = player2.score;
-    }
+	function setPlayerScore() {
+		p1Score.textContent = player1.score;
+		p2Score.textContent = player2.score;
+	}
+
+	function setSymbol(symbol) {
+		board.style.setProperty("--symbol", `"${symbol}"`);
+	}
 
 	function displayGameEnd(playerObj) {
-		console.log("DISPLAYENGAME");
 		if (playerObj) {
 			endGameModal.querySelector("#result").textContent =
 				`Player ${playerObj.name} HAS WON!`;
@@ -186,6 +202,12 @@ const gameboard = (function () {
 		console.log(` PLAYER ${playerObj.name} WON`);
 	}
 
+	//Interaction Controller
+	const board = document.querySelector("#board");
+
+	board.addEventListener("click", (e) => {
+		placeMark(DOMcells.indexOf(e.target));
+	});
 
 	return {
 		logBoard,
