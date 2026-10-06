@@ -15,7 +15,7 @@ const gameboard = (function () {
 
 	const WINS = [7, 56, 448, 73, 146, 292, 273, 84];
 
-	//Player
+	// Player
 	function createPlayers() {
 		let playerInput = prompt("> Name for player 1: ");
 		player1 = new player(playerInput, "O");
@@ -53,6 +53,7 @@ const gameboard = (function () {
 	// Controls
 	function playRound() {
 		if (!checkPlayersExist()) createPlayers();
+
 		roundReset();
 		activePlayer = player1;
 		setSymbol(activePlayer.mark);
@@ -67,6 +68,7 @@ const gameboard = (function () {
 		moveCounter = 0;
 		playerSwitch = false;
 		activePlayer = null;
+
 		clearBoard();
 		console.log("  !ROUND RESET!  ");
 	}
@@ -77,6 +79,7 @@ const gameboard = (function () {
 		boardMap = Array(9);
 		activePlayer = null;
 		moveCounter = 0;
+
 		clearBoard();
 		console.log("======= GAME RESET ========");
 		playRound();
@@ -88,6 +91,7 @@ const gameboard = (function () {
 
 			activePlayer.binary |= 1 << cell;
 			console.log(activePlayer.binary);
+
 			boardMap[cell] = activePlayer.mark;
 			DOMcells[cell].textContent = activePlayer.mark;
 
@@ -110,10 +114,12 @@ const gameboard = (function () {
 	// Board
 	function checkRoundCondition() {
 		let winner = checkWinCondition();
+
 		if (winner) {
 			displayGameEnd(winner);
 			return true;
 		}
+
 		if (checkMoveCounterMax()) {
 			player1.score += 1;
 			player2.score += 1;
@@ -121,17 +127,20 @@ const gameboard = (function () {
 			displayGameEnd();
 			return true;
 		}
+
 		return false;
 	}
 
 	function checkWinCondition() {
 		console.log("checked win condition debug");
+
 		if (WINS.some((binWin) => (player1.binary & binWin) === binWin)) {
 			player1.score += 1;
 			setPlayerScore();
 			displayPlayerWin(player1);
 			return player1;
 		}
+
 		if (WINS.some((binWin) => (player2.binary & binWin) === binWin)) {
 			player2.score += 1;
 			setPlayerScore();
@@ -153,11 +162,14 @@ const gameboard = (function () {
 	function logBoard(arr) {
 		for (let i = 0; i < arr.length; i += 3) {
 			let row = [];
+
 			for (let j = i; j < i + 3; j++) {
 				row.push(arr[j] ?? "-");
 			}
+
 			console.log(row.join(" "));
 		}
+
 		return "";
 	}
 
@@ -173,6 +185,7 @@ const gameboard = (function () {
 	const p2Score = document.querySelector("#p2-score");
 
 	const resetBtn = (document.querySelector("#reset-btn").onclick = gameReset);
+
 	nextRndBtn.onclick = function () {
 		endGameModal.close();
 		playRound();
@@ -202,7 +215,7 @@ const gameboard = (function () {
 		console.log(` PLAYER ${playerObj.name} WON`);
 	}
 
-	//Interaction Controller
+	// Interaction Controller
 	const board = document.querySelector("#board");
 
 	board.addEventListener("click", (e) => {
